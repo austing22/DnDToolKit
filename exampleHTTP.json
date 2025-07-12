@@ -1,0 +1,414 @@
+/api/users/register
+
+Request:
+POST http://dndtoolkit/api/users/register
+{
+   "name": "Austin Glass",
+   "email": "austin@example.com",
+   "username": "austinglass01",
+   "password": "MyPassword123!"
+}
+
+Success (201 Created):
+{
+   "message": "User registered successfully.",
+   "userId": "64f2d1b8e4a13c28d7e4a820"
+}
+
+Error (409 Conflict):
+{
+    "error": "A user with that email address already exists."
+}
+
+Error (400 Bad Request):
+{
+    "error": "Missing required field: username."
+}
+
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+
+/api/users/login
+
+Request:
+POST http://dndtoolkit/api/users/login
+{
+    "username": "austinglass01",
+    "password": "MyPassword123!"
+}
+
+Success (200 OK):
+{
+    "message": "User login successful.",
+}
+
+Error (401 Unauthorized):
+{
+    "error": "Invalid username or password."
+}
+
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+
+/api/users/{id}/character/form
+
+Request:
+PUT http://dndtoolkit/api/users/64f2d1b8e4a13c28d7e4a820/character/form
+{
+    "character_name": "Kael the Quiet",
+    "level": 4,
+    "image_path": "/images/characters/kael.png",
+    "ability_scores": {
+      "strength": 14,
+      "constitution": 13,
+      "dexterity": 12,
+      "intelligence": 16,
+      "wisdom": 10,
+      "charisma": 8
+    },
+    "skill_proficiencies": ["Stealth", "Arcana", "Investigation"],
+    "saving_throws": ["Dexterity", "Intelligence"],
+    "armor": "Studded Leather",
+    "unarmored_defense": false,
+    "shield": false,
+    "hit_points": 21
+}
+  
+Success (204 No Content)
+
+Error (401 Unauthorized): 
+{
+    "error": "Must be logged in to update character data."
+}
+
+Error (403 Forbidden):
+{
+    "error": "User not authorized to modify this character."
+}
+ 
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+Error (415 Unsupported Media Type):
+{
+    "error": "Only image files (PNG, JPEG) are supported."
+}
+
+Request: 
+GET http://dndtoolkit/api/users/64f2d1b8e4a13c28d7e4a820/character/form
+
+Success (200 OK):
+{
+    "character_name": "Kael the Quiet",
+    "level": 4,
+    "image_path": "/images/characters/kael.png",
+    "ability_scores": {
+      "strength": 14,
+      "constitution": 13,
+      "dexterity": 12,
+      "intelligence": 16,
+      "wisdom": 10,
+      "charisma": 8
+    },
+    "skill_proficiencies": ["Stealth", "Arcana", "Investigation"],
+    "saving_throws": ["Dexterity", "Intelligence"],
+    "armor": "Studded Leather",
+    "unarmored_defense": false,
+    "shield": false,
+    "hit_points": 21
+}
+
+Error (400 Bad Request):
+{
+    "error": "Invalid user ID format."
+}
+  
+Error (401 Unauthorized): 
+{
+    "error": "Must be logged in to update character data."
+}
+
+Error (403 Forbidden):
+{
+    "error": "User not authorized to modify this character."
+}
+
+Error (404 Not Found):
+{
+    "error": "No character found for this user."
+}
+  
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+
+/api/users/{id}/character
+
+Request: 
+GET http://dndtoolkit/api/users/64f2d1b8e4a13c28d7e4a820/character
+
+Success (200 OK):
+{
+    "character_name": "Kael the Quiet",
+    "image_path": "/images/characters/kael.png",
+    "hit_points": 21,
+    "ability_scores": {
+      "strength": 14,
+      "dexterity": 12,
+      "constitution": 13,
+      "intelligence": 16,
+      "wisdom": 10,
+      "charisma": 8
+    },
+    "ability_modifiers": {
+      "strength": 2,
+      "dexterity": 1,
+      "constitution": 1,
+      "intelligence": 3,
+      "wisdom": 0,
+      "charisma": -1
+    },
+    "saving_throws": {
+      "strength": 2,
+      "dexterity": 3,
+      "constitution": 1,
+      "intelligence": 5,
+      "wisdom": 0,
+      "charisma": -1
+    },
+    "skill_modifiers": {
+      "acrobatics": 1,
+      "arcana": 5,
+      "athletics": 2,
+      "investigation": 5,
+      "stealth": 3,
+      "perception": 0,
+      "history": 3,
+      "intimidation": -1
+    },
+    "armor_class": 13
+}
+  
+Error (400 Bad Request):
+{
+    "error": "Invalid user ID format."
+}
+  
+Error (401 Unauthorized): 
+{
+    "error": "Must be logged in to access character sheet."
+}
+
+Error (403 Forbidden):
+{
+    "error": "User not authorized to view this character."
+}
+
+Error (404 Not Found):
+{
+    "error": "No character found for this user."
+}
+
+Error (422 Unprocessable Content)
+{
+    "error": "Unable to process. Ensure character data is accurate."
+}
+  
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+
+/api/adventurelog
+
+Request:
+POST http://dndtoolkit/api/adventurelog
+{
+    "type": "session",
+    "title": "The Goblin Caves",
+    "description": "The party entered the dark goblin tunnels and encountered several traps before defeating the goblin shaman.",
+    "date": "2025-07-06T14:30:00Z"
+}
+
+Success (201 Created):
+{
+   "message": "Entry successful.",
+   "id": "64f2d1b8e4a13c28d7e4a820"
+}
+  
+Error (401 Unauthorized): 
+{
+    "error": "Must be logged in to contribute to the adventure."
+}
+
+Error (409 Conflict):
+{
+    "error": "A log with that title already exists."
+}
+
+Error (413 Content Too Large):
+{
+    "error": "The character limit for the description was exceeded. Max characters: 10,000."
+}
+  
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+Request:
+PUT http://dndtoolkit/api/adventurelog/66a2de50f9b9b34e929a7e10
+{
+    "title": "The Trial of Flame - Part II",
+    "description": "The party finished their fight against the fire elemental...",
+}
+
+Success (204 No Content)
+
+Error (401 Unauthorized): 
+{
+    "error": "Must be logged in to contribute to the adventure."
+}
+
+Error (404 Not Found):
+{
+    "error": "No log found for this id."
+}
+
+Error (409 Conflict):
+{
+    "error": "A log with that title already exists."
+}
+
+Error (413 Content Too Large):
+{
+    "error": "The character limit for the description was exceeded. Max characters: 10,000."
+}
+
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+Request:
+DELETE http://dndtoolkit/api/adventurelog/66a2de50f9b9b34e929a7e10
+
+Success (204 No Content)
+
+Error (401 Unauthorized): 
+{
+    "error": "Must be logged in to contribute to the adventure."
+}
+
+Error (404 Not Found):
+{
+    "error": "No log found for this id."
+}
+
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+
+/api/adventurelog?type={type}
+
+Request:
+GET http://dndtoolkit/api/adventurelog?type=session
+
+Success (200 OK):
+[
+    {
+      "_id": "66a2de50f9b9b34e929a7e10",
+      "type": "session",
+      "title": "The Trial of Flame",
+      "content": "The party entered the Temple of Eternal Embers...",
+      "date": "2025-07-03"
+    },
+    {
+      "_id": "66a2df23f9b9b34e929a7e99",
+      "type": "session",
+      "title": "The Emberlord Awakens",
+      "content": "Flames burst from the altar as the final rune was struck...",
+      "date": "2025-07-10"
+    }
+]
+
+Error (401 Unauthorized): 
+{
+    "error": "Must be logged in to contribute to the adventure."
+}
+
+Error (404 Not Found):
+{
+"error": "No entries found for type: session"
+}
+
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+
+/api/monsters?size={size}&level={level}&difficulty={difficulty}
+
+Request:
+GET http://dndtoolkit/api/monsters?size=4&level=3&difficulty=medium
+
+Success (200 OK):
+{
+    "monsters": [
+      { "name": "Goblin", "cr": 0.25, "xp": 50, "count": 4, "image": "/images/monsters/goblin.png" },
+      { "name": "Orc", "cr": 0.5, "xp": 100, "count": 1, "image": "/images/monsters/orc.png" },
+      { "name": "Wolf", "cr": 0.25, "xp": 50, "count": 1, "image": "/images/monsters/wolf.png" }
+    ]
+}
+
+Error (400 Bad Request):
+{
+    "error": "Missing or invalid query parameters. Please include size, level, and difficulty."
+}
+
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+Error (503 Service Unavailable):
+{
+    "error": "The server took too long to balance the encounter. Please try again."
+}
+
+/api/npcs
+
+Request:
+GET http://dndtoolkit/api/npcs
+
+Success (200 OK):
+{
+    "first_name": "Selene",
+    "last_name": "Bramblethorn",
+    "image": "/images/npcs/gnome_wizard.png"
+}
+
+Error (500 Internal Server Error):
+{
+    "error": "An unexpected error occurred. Please try again later."
+}
+
+  
+  
+
+
+
