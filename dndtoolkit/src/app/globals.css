@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -16,6 +19,20 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply block hover:text-teal-300;
+  }
+
+  .nav-section {
+    @apply text-left w-full cursor-pointer hover:text-teal-300;
+  }
+
+  .submenu {
+    @apply ml-4 mt-1 space-y-1 md:space-y-0 md:ml-0;
   }
 }
 
