@@ -20,7 +20,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-800 text-white px-4 py-3">
+    <nav className="nav-general px-4 py-3">
       <div className="max-w-6xl mx-auto">
         {/* Top row: logo and hamburger */}
         <div className="flex justify-between items-center">
@@ -50,9 +50,8 @@ export default function Navbar() {
               DM Tools
             </button>
             <div
-              className={`md:absolute md:bg-gray-800 md:rounded md:shadow-md md:mt-2 md:py-0 md:px-4 overflow-hidden transition-all duration-300 ease-in-out ${
-                activeSection === 'dmTools' ? 'max-h-40' : 'max-h-0'
-              }`}
+              className={`submenu-container ${
+                activeSection === 'dmTools' ? 'open' : ''}`}
             >
               <ul className="submenu">
                 <li>
@@ -83,8 +82,8 @@ export default function Navbar() {
               Adventure Log
             </button>
             <div
-              className={`md:absolute md:bg-gray-800 md:rounded md:shadow-md md:mt-2 md:py-0 md:px-4 overflow-hidden transition-all duration-300 ease-in-out ${
-                activeSection === 'adventureLog' ? 'max-h-40' : 'max-h-0'
+              className={`submenu-container ${
+                activeSection === 'adventureLog' ? 'open' : ''
               }`}
             >
               <ul className="submenu">
