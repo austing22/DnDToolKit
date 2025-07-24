@@ -2,8 +2,12 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 export default function Navbar() {
+  // Use to manage Login/Logout
+  const { data: session, status } = useSession();
+
   // Tracks which dropdown section is open
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
@@ -122,11 +126,27 @@ export default function Navbar() {
               Character Sheet
             </Link>
           </li>
-          <li>
-            <Link href="/login" className="nav-link">
-              Login
-            </Link>
+          {/* Auth Section: Login or Logout */}
+          <li className="mt-2 md:mt-0">
+            {status === 'loading' ? (
+              <span className="nav-link">Loading...</span>
+            ) : session?.user ? (
+              <div className="flex items-center space-x-4">
+                <span className="nav-link">Hi, {session.user.name?.split(' ')[0]}</span>
+                <button
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  className="nav-link"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link href="/login" className='nav-link'>
+                Login
+              </Link>
+            )}
           </li>
+
         </ul>
       </div>
     </nav>

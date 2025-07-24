@@ -3,8 +3,22 @@
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/welcome');
+    }
+  }, [status, router]);
+  
+  if (status === 'loading') return <div>Loading...</div>
   return (
     <div className="login-container">
       <h1 className="text-2xl font-bold mb-4">Greetings, Adventurer!</h1>
