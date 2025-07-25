@@ -59,7 +59,7 @@ export default function Navbar() {
             >
               <ul className="submenu">
                 <li>
-                  <Link href="/npc-generator" className="nav-link">
+                  <Link href="/npcs" className="nav-link">
                     NPC Generator
                   </Link>
                 </li>
