@@ -1,10 +1,12 @@
-import NextAuth from "next-auth";
+import type { Adapter } from "next-auth/adapters";
+import type { JWT } from "next-auth/jwt";
+import type { Session, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb"; 
 
-export const authOptions = NextAuth({
+export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
@@ -17,16 +19,24 @@ export const authOptions = NextAuth({
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
   callbacks: {
-    async session({ session, token }) {
+    async jwt({ token, user}: { token: JWT; user?: User}) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ token, session }: { token: JWT; session: Session}) {
       // Attach MongoDB _id to session
-      if (token && session.user) {
-        session.user.id = token.sub!; // NextAuth stores MongoDB ID as sub
+
+      if (token?.id && session.user) {
+        session.user.id = token.id as string;
+        console.log('hellow', session.user.id);
       }
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
