@@ -11,7 +11,7 @@ const skills = [
 const armors = ['None', 'Leather', 'Studded Leather', 'Chain Shirt', 'Scale Mail', 'Half Plate', 'Full Plate'];
 
 export default function CharacterForm({ userId }: { userId: string }) {
-    console.log('userId from props:', userId);
+    // console.log('userId from props:', userId);
 
   const [form, setForm] = useState({
     characterName: '',

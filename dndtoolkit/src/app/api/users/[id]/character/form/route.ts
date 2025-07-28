@@ -10,16 +10,25 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const userId = params.id;
     // Validate user
     const session: Session | null = await getServerSession(authOptions);
-    if (!session || session.user.id !== params.id) {
-        return NextResponse.json({message: 'Forbidden'}, { status: 403 });
+    const userId = params.id;
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
+
+    if (session.user.id !== userId) {
+      return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await req.json();
 
-    if (!userId || !body.characterName || !body.abilityScores) {
-      return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+    if (!body.characterName || !body.abilityScores) {
+      return NextResponse.json(
+        { message: 'Missing required fields' }, 
+        { status: 400 }
+      );
     }
 
     const client = await clientPromise;
@@ -28,16 +37,26 @@ export async function PUT(
 
     const result = await users.updateOne(
       { _id: new ObjectId(userId) },
-      { $set: { ...body } }
+      { $set: { character: body } }  
     );
+    console.log('result: ', result);
 
-    if (result.modifiedCount === 0) {
-      return NextResponse.json({ message: 'User not found or data unchanged' }, { status: 404 });
+    if (result.matchedCount === 0) {
+      return NextResponse.json(
+        { message: 'User not found or no change made' }, 
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ message: 'Character data saved' }, { status: 204 });
+    return NextResponse.json(
+      { success: true, message: 'Character data saved' },
+      { status: 200 }
+    );
   } catch (error) {
-    console.error('PUT /api/users/[id]/character/form error:', error);
-    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+    console.error('PUT error:', error);
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
