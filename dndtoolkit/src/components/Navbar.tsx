@@ -112,7 +112,7 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/adventurelog/new" className="nav-link">
+                  <Link href="/adventurelog" className="nav-link">
                     Add Entry
                   </Link>
                 </li>
