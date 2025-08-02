@@ -27,6 +27,8 @@ export default function AdventureLogPage() {
     alert('Log saved');
     // Clear form or show confirmation
     (e.target as HTMLFormElement).reset();
+  } else if (res.status === 413) {
+    alert('Character limit reached: Maximum 10,000 characters');
   } else {
     const error = await res.json();
     console.error('Failed to save log:', error.message);

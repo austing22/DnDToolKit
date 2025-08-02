@@ -19,6 +19,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Missing fields' }, { status: 400 });
     }
 
+    const MAX_ENTRY_LENGTH = 10000;
+    if (typeof entry === 'string' && entry.length > MAX_ENTRY_LENGTH) {
+      return NextResponse.json({ message: 'Payload Too Large'}, { status: 413 });
+    }
+
     const client = await clientPromise;
     const db = client.db('dndtoolkit');
     const logs = db.collection('adventurelog');
