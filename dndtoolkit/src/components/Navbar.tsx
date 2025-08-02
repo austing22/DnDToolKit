@@ -92,27 +92,27 @@ export default function Navbar() {
             >
               <ul className="submenu">
                 <li>
-                  <Link href="/adventurelog" className="nav-link">
+                  <Link href="/adventurelog/view?type=location" className="nav-link">
                     Locations
                   </Link>
                 </li>
                 <li>
-                  <Link href="/adventurelog" className="nav-link">
+                  <Link href="/adventurelog/view?type=npc" className="nav-link">
                     NPCs
                   </Link>
                 </li>
                 <li>
-                  <Link href="/adventurelog" className="nav-link">
+                  <Link href="/adventurelog/view?type=quest" className="nav-link">
                     Quests
                   </Link>
                 </li>
                 <li>
-                  <Link href="/adventurelog" className="nav-link">
+                  <Link href="/adventurelog/view?type=session" className="nav-link">
                     Sessions
                   </Link>
                 </li>
                 <li>
-                  <Link href="/adventurelog/new" className="nav-link">
+                  <Link href="/adventurelog" className="nav-link">
                     Add Entry
                   </Link>
                 </li>
