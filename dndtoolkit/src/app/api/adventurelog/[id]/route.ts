@@ -4,8 +4,6 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import clientPromise from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 
-type Context = { params: { id: string } };
-
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -41,7 +39,7 @@ export async function PUT(
 ) : Promise<Response> {
   try {
     const { params } = context as { params: { id: string } };
-    const { id } = params;
+    // const { id } = params; // Build says never used, but this is just what the internet said to fix...leaving for now
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.id) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
