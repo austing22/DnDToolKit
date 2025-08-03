@@ -1,4 +1,3 @@
-import type { Adapter } from "next-auth/adapters";
 import type { JWT } from "next-auth/jwt";
 import type { Session, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
