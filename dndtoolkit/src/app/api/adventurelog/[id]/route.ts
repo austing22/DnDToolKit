@@ -6,9 +6,11 @@ import { ObjectId } from 'mongodb';
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  context: unknown
+  //{ params }: { params: { id: string } }
+) : Promise<Response> {
   try {
+    const { params } = context as { params: { id: string } };
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user?.id) {

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+//import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import TypeFromSearchParams from './TypeFromSearchParams';
 
 interface LogEntry {
   _id: string;
@@ -20,10 +21,11 @@ export default function ViewLogsPage() {
   const router = useRouter();
   const [editMode, setEditMode] = useState(false);
   const [editedText, setEditedText] = useState('');
+  const [type, setType] = useState<string>('location');
 
 
-  const searchParams = useSearchParams();
-  const type = searchParams!.get('type') || 'location'; // The bang should not actually be there, but I couldn't get the error to go away
+  //const searchParams = useSearchParams();
+  //const type = searchParams!.get('type') || 'location'; // The bang should not actually be there, but I couldn't get the error to go away
 
   useEffect(() => {
     async function fetchLogs() {
@@ -131,6 +133,9 @@ export default function ViewLogsPage() {
   return (
     <div className="max-w-3xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4 capitalize">{type} Logs</h2>
+      <Suspense fallback={null}>
+        <TypeFromSearchParams onResolved={setType} />
+      </Suspense>
 
       {loading && <p>Loading logs...</p>}
       {error && <p className="text-red-600 font-semibold">{error}</p>}
@@ -189,5 +194,6 @@ export default function ViewLogsPage() {
         </div>
         )}
     </div>
+    
   );
 }

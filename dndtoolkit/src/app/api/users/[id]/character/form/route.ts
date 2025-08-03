@@ -7,9 +7,11 @@ import { Session } from 'next-auth';
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  context: unknown
+  // { params }: { params: { id: string } }
+) : Promise<Response> {
   try {
+    const { params } = context as { params: { id: string } };
     // Validate user
     const session: Session | null = await getServerSession(authOptions);
     const userId = params.id;
