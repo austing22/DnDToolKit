@@ -42,16 +42,18 @@ export default function ViewLogsPage() {
 
         const data = await res.json();
         setLogs(data);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error(err);
-        setError(err.message || 'Unknown error');
+        if (err instanceof Error) {
+          setError(err.message || 'Unknown error');
+        }
       } finally {
         setLoading(false);
       }
     }
 
     fetchLogs();
-  }, [type]);
+  }, [type, router]);
 
   useEffect(() => {
     if (selectedLog) {
@@ -84,7 +86,7 @@ export default function ViewLogsPage() {
         // Remove the deleted log from local state
         setLogs((prev) => prev.filter((log) => log._id !== id));
         setSelectedLog(null); // close modal
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('Error deleting log:', err);
         setError('Unexpected error during deletion.');
     }
@@ -118,7 +120,7 @@ export default function ViewLogsPage() {
         );
         setSelectedLog(updatedLog);
         setEditMode(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('Update failed:', err);
         setError('Unexpected error during update.');
     }

@@ -4,6 +4,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import clientPromise from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 
+type Context = { params: { id: string } };
+
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -34,9 +36,12 @@ export async function DELETE(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+  context :unknown
+  //{ params }: { params: { id: string } }
+) : Promise<Response> {
   try {
+    const { params } = context as { params: { id: string } };
+    const { id } = params;
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.id) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -71,5 +76,5 @@ export async function PUT(
     console.error('PUT /api/adventurelog/[id] error:', err);
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
-}
+} 
 

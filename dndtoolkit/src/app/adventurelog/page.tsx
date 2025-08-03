@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AdventureLogPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,7 +24,7 @@ export default function AdventureLogPage() {
   });
 
   if (res.ok) {
-    const data = await res.json();
+    // const data = await res.json(); // Never used...leaving in case need it in the future
     alert('Log saved');
     // Clear form or show confirmation
     (e.target as HTMLFormElement).reset();
@@ -42,19 +43,19 @@ export default function AdventureLogPage() {
       {/* Navigation Tiles */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <Link href="/adventurelog/view?type=location" className="nav-tile">
-          <img src="/images/locations.png" alt="Locations" className="tile-img" />
+          <Image src="/images/locations.jpg" alt="Locations" width={100} height={100} className="tile-Image" />
           <p className="tile-label">Locations</p>
         </Link>
         <Link href="/adventurelog/view?type=npc" className="nav-tile">
-          <img src="/images/npcs.png" alt="NPCs" className="tile-img" />
+          <Image src="/images/npcs.jpg" alt="NPCs" width={100} height={100} className="tile-Image" />
           <p className="tile-label">NPCs</p>
         </Link>
         <Link href="/adventurelog/view?type=quest" className="nav-tile">
-          <img src="/images/quests.png" alt="Quests" className="tile-img" />
+          <Image src="/images/quests.jpg" alt="Quests" width={100} height={100} className="tile-Image" />
           <p className="tile-label">Quests</p>
         </Link>
         <Link href="/adventurelog/view?type=session" className="nav-tile">
-          <img src="/images/sessions.png" alt="Sessions" className="tile-img" />
+          <Image src="/images/sessions.jpg" alt="Sessions" width={100} height={100} className="tile-Image" />
           <p className="tile-label">Sessions</p>
         </Link>
       </div>
