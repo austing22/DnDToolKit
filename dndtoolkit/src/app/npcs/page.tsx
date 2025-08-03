@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 
 interface Npc {
   firstName: string;
@@ -42,9 +43,11 @@ export default function NpcGenerator() {
 
       {npc && (
         <div className="mt-8 flex flex-col items-center">
-          <img
+          <Image
             src={npc.image}
             alt={`${npc.firstName} ${npc.lastName}`}
+            width={100}
+            height={100}
             className="w-40 h-40 object-cover object-top rounded-full border-4 border-[var(--accent-blue)] shadow-md mb-4"
           />
           <div className="text-[var(--accent-gold)] font-semibold text-xl leading-tight mt-2">
