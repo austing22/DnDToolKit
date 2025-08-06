@@ -59,17 +59,17 @@ export default function Navbar() {
             >
               <ul className="submenu">
                 <li>
-                  <Link href="/npcs" className="nav-link">
+                  <Link href="/dmtools/npcs" className="nav-link">
                     NPC Generator
                   </Link>
                 </li>
                 <li>
-                  <Link href="/npc-generator" className="nav-link">
+                  <Link href="/dmtools/encounters" className="nav-link">
                     Encounter Generator
                   </Link>
                 </li>
                 <li>
-                  <Link href="/initiative" className="nav-link">
+                  <Link href="/dmtools/initiative" className="nav-link">
                     Initiative Tracker
                   </Link>
                 </li>
