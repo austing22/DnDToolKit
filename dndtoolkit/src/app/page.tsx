@@ -18,7 +18,7 @@ export default function HomePage() {
 
       {/* Feature Icons */}
       <section className="w-full max-w-6xl px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-        <Link href="/dm-tools" className="flex flex-col items-center">
+        <Link href="/dmtools" className="flex flex-col items-center">
           <div className='w-24 h-24 md:w-32 md:h-32 relative'>
             <Image src="/images/home/dm_tools.png" alt="DM Tools" fill className="object-contain" />
           </div>
