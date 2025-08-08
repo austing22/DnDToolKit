@@ -9,6 +9,7 @@ const skills = [
   'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'
 ];
 const armors = ['None', 'Leather', 'Studded Leather', 'Chain Shirt', 'Scale Mail', 'Half Plate', 'Full Plate'];
+const characterClass = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rouge', 'Sorcerer', 'Warlock', 'Wizard'];
 
 export default function CharacterForm({ userId }: { userId: string }) {
     // console.log('userId from props:', userId);
@@ -16,6 +17,7 @@ export default function CharacterForm({ userId }: { userId: string }) {
   const [form, setForm] = useState({
     characterName: '',
     level: 1,
+    characterClass: 'Barbarian',
     abilityScores: Object.fromEntries(abilities.map(a => [a.toLowerCase(), 10])),
     skillProficiencies: [] as string[],
     savingThrows: [] as string[],
@@ -55,6 +57,7 @@ export default function CharacterForm({ userId }: { userId: string }) {
       body: JSON.stringify({
         characterName: form.characterName,
         level: form.level,
+        character_class: form.characterClass,
         abilityScores: form.abilityScores,
         skillProficiencies: form.skillProficiencies,
         savingThrows: form.savingThrows,
@@ -103,6 +106,16 @@ export default function CharacterForm({ userId }: { userId: string }) {
             value={form.level}
             onChange={(e) => setForm({ ...form, level: parseInt(e.target.value) })}
           />
+          <label>Class</label>
+          <select
+            value={form.characterClass}
+            onChange={(e) => setForm({ ...form, characterClass: e.target.value })}
+          >
+            {characterClass.map(characterClass => (
+              <option key={characterClass} value={characterClass}>{characterClass}</option>
+            ))}
+          </select>
+
         </div>
 
         <fieldset>
