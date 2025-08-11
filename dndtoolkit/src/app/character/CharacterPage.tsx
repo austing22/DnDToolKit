@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type AbilityScore = { score: number; modifier: number };
 
@@ -25,6 +26,7 @@ export default function CharacterPage({ userId }: { userId: string }) {
   const [character, setCharacter] = useState<CharacterData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchCharacter() {
@@ -47,45 +49,6 @@ export default function CharacterPage({ userId }: { userId: string }) {
   if (error) return <p>Error: {error}</p>;
   if (!character) return <p>No character data found.</p>;
 
-//   return (
-//     <div className="character-page">
-//       <h1>{character.name}</h1>
-//       <p>
-//         Level {character.level} {character.class}
-//       </p>
-//       {character.image && (
-//         <img src={character.image} alt={`${character.name} portrait`} />
-//       )}
-
-//       <h2>Stats</h2>
-//       <ul>
-//         {Object.entries(character.abilityScores).map(([stat, value]) => (
-//           <li key={stat}>
-//             {stat}: {value.score} (
-//             {value.modifier >= 0 ? `+${value.modifier}` : value.modifier})
-//           </li>
-//         ))}
-//       </ul>
-
-//       <h2>Saving Throws</h2>
-//       <ul>
-//         {Object.entries(character.savingThrows).map(([save, bonus]) => (
-//           <li key={save}>
-//             {save}: {bonus >= 0 ? `+${bonus}` : bonus}
-//           </li>
-//         ))}
-//       </ul>
-
-//       <h2>Skills</h2>
-//       <ul>
-//         {Object.entries(character.skills).map(([skill, bonus]) => (
-//           <li key={skill}>
-//             {skill}: {bonus >= 0 ? `+${bonus}` : bonus}
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
     return (
     <div className="character-page">
       <div className="character-header">
@@ -108,39 +71,50 @@ export default function CharacterPage({ userId }: { userId: string }) {
         </div>
       </div>
 
-      <div className="character-grid">
-        <div className="character-card">
-          <h2>Ability Scores</h2>
-          <ul>
-            {Object.entries(character.abilityScores).map(([stat, value]) => (
-              <li key={stat}>
-                <strong>{stat}</strong>: {value.score} (
-                {value.modifier >= 0 ? `+${value.modifier}` : value.modifier})
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div>
+        <div className="character-grid">
+            <div className="character-card">
+            <h2>Ability Scores</h2>
+            <ul>
+                {Object.entries(character.abilityScores).map(([stat, value]) => (
+                <li key={stat}>
+                    <strong>{stat}</strong>: {value.score} (
+                    {value.modifier >= 0 ? `+${value.modifier}` : value.modifier})
+                </li>
+                ))}
+            </ul>
+            </div>
 
-        <div className="character-card">
-          <h2>Saving Throws</h2>
-          <ul>
-            {Object.entries(character.savingThrows).map(([save, bonus]) => (
-              <li key={save}>
-                <strong>{save}</strong>: {bonus >= 0 ? `+${bonus}` : bonus}
-              </li>
-            ))}
-          </ul>
-        </div>
+            <div className="character-card">
+            <h2>Saving Throws</h2>
+            <ul>
+                {Object.entries(character.savingThrows).map(([save, bonus]) => (
+                <li key={save}>
+                    <strong>{save}</strong>: {bonus >= 0 ? `+${bonus}` : bonus}
+                </li>
+                ))}
+            </ul>
+            </div>
 
-        <div className="character-card full-width">
-          <h2>Skills</h2>
-          <ul>
-            {Object.entries(character.skills).map(([skill, bonus]) => (
-              <li key={skill}>
-                <strong>{skill}</strong>: {bonus >= 0 ? `+${bonus}` : bonus}
-              </li>
-            ))}
-          </ul>
+            <div className="character-card full-width">
+            <h2>Skills</h2>
+            <ul>
+                {Object.entries(character.skills).map(([skill, bonus]) => (
+                <li key={skill}>
+                    <strong>{skill}</strong>: {bonus >= 0 ? `+${bonus}` : bonus}
+                </li>
+                ))}
+            </ul>
+            </div>
+        </div>
+        <div className="mt-6 flex justify-center">
+            <button 
+                type="button" 
+                className="btn btn-primary"
+                onClick={() => router.push('/character/form')}
+            >
+                Edit Character
+            </button>
         </div>
       </div>
     </div>

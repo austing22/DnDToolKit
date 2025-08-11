@@ -62,3 +62,5 @@ export async function PUT(
     );
   }
 }
+
+// Add the GET method in here to fill the page

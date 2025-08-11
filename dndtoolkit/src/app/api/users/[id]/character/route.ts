@@ -17,7 +17,6 @@ export async function GET(
 
     const client = await clientPromise;
     const db = client.db("dndtoolkit");
-    console.log("object id: ", new ObjectId((await context.params).id));
 
     const user = await db
       .collection("users")

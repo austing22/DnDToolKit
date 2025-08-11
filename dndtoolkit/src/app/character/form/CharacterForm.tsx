@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
 const skills = [
@@ -12,7 +12,7 @@ const armors = ['None', 'Leather', 'Studded Leather', 'Chain Shirt', 'Scale Mail
 const characterClass = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rouge', 'Sorcerer', 'Warlock', 'Wizard'];
 
 export default function CharacterForm({ userId }: { userId: string }) {
-    // console.log('userId from props:', userId);
+  const [character, setCharacter] = useState(null);
 
   const [form, setForm] = useState({
     characterName: '',
@@ -49,6 +49,20 @@ export default function CharacterForm({ userId }: { userId: string }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
+
+  useEffect(() => {
+    async function fetchCharacter() {
+      try {
+        const res = await fetch(`/api/users/${userId}/character/form`);
+        if (!res.ok) throw new Error("Failed to fetch character data");
+        const data = await res.json();
+        setCharacter(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchCharacter();
+  }, []);
 
   try {
     const response = await fetch(`/api/users/${userId}/character/form`, {
