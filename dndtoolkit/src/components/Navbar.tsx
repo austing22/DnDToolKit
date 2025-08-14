@@ -122,7 +122,7 @@ export default function Navbar() {
 
           {/* Simple links */}
           <li>
-            <Link href="/character/form" className="nav-link">
+            <Link href="/character" className="nav-link">
               Character Sheet
             </Link>
           </li>
