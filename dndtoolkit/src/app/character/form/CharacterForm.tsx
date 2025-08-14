@@ -12,7 +12,6 @@ const armors = ['None', 'Leather', 'Studded Leather', 'Chain Shirt', 'Scale Mail
 const characterClass = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rouge', 'Sorcerer', 'Warlock', 'Wizard'];
 
 export default function CharacterForm({ userId }: { userId: string }) {
-  const [character, setCharacter] = useState(null);
 
   const [form, setForm] = useState({
     characterName: '',
@@ -26,6 +25,28 @@ export default function CharacterForm({ userId }: { userId: string }) {
     unarmoredDefense: false,
     image: null as File | null,
   });
+
+  useEffect(() => {
+    async function fetchCharacter() {
+      try {
+        console.log("Fetching Character Data...")
+        const res = await fetch(`/api/users/${userId}/character/form`, );
+        if (res.ok) {
+          const data = await res.json();
+          if (data) {
+            setForm((prev) => ({
+              ...prev,
+              ...data,
+              abilityScores: data.abilityScores || prev.abilityScores,
+            }));
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchCharacter();
+  }, [userId]);
 
   const handleAbilityChange = (ability: string, value: number) => {
     setForm(prev => ({
@@ -49,20 +70,6 @@ export default function CharacterForm({ userId }: { userId: string }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-
-  useEffect(() => {
-    async function fetchCharacter() {
-      try {
-        const res = await fetch(`/api/users/${userId}/character/form`);
-        if (!res.ok) throw new Error("Failed to fetch character data");
-        const data = await res.json();
-        setCharacter(data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    fetchCharacter();
-  }, []);
 
   try {
     const response = await fetch(`/api/users/${userId}/character/form`, {
@@ -94,14 +101,14 @@ export default function CharacterForm({ userId }: { userId: string }) {
   }
 };
 
-
   return (
     <main className="max-w-3xl mx-auto px-4 py-10 font-serif">
       <h1 className="text-3xl font-bold text-[var(--accent-red)] uppercase mb-6 text-center">
-        Create Character
+        {form.characterName ? "Edit Character" : "Create Character"}
       </h1>
 
       <form className="space-y-6" onSubmit={handleSubmit}>
+        {/* Character Name */}
         <div>
           <label>Character Name</label>
           <input
@@ -111,6 +118,7 @@ export default function CharacterForm({ userId }: { userId: string }) {
           />
         </div>
 
+        {/* Level & Class */}
         <div>
           <label>Level</label>
           <input
@@ -125,17 +133,19 @@ export default function CharacterForm({ userId }: { userId: string }) {
             value={form.characterClass}
             onChange={(e) => setForm({ ...form, characterClass: e.target.value })}
           >
-            {characterClass.map(characterClass => (
-              <option key={characterClass} value={characterClass}>{characterClass}</option>
+            {characterClass.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
-
         </div>
 
+        {/* Ability Scores */}
         <fieldset>
           <legend className="font-bold text-[var(--accent-blue)] mb-2">Ability Scores</legend>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {abilities.map(ability => (
+            {abilities.map((ability) => (
               <div key={ability}>
                 <label>{ability}</label>
                 <input
@@ -150,15 +160,16 @@ export default function CharacterForm({ userId }: { userId: string }) {
           </div>
         </fieldset>
 
+        {/* Skill Proficiencies */}
         <fieldset>
           <legend className="font-bold text-[var(--accent-blue)] mb-2">Skill Proficiencies</legend>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-            {skills.map(skill => (
+            {skills.map((skill) => (
               <label key={skill}>
                 <input
                   type="checkbox"
                   checked={form.skillProficiencies.includes(skill)}
-                  onChange={() => handleCheckboxChange('skillProficiencies', skill)}
+                  onChange={() => handleCheckboxChange("skillProficiencies", skill)}
                 />
                 <span className="custom-checkbox">{skill}</span>
               </label>
@@ -166,15 +177,16 @@ export default function CharacterForm({ userId }: { userId: string }) {
           </div>
         </fieldset>
 
+        {/* Saving Throws */}
         <fieldset>
           <legend className="font-bold text-[var(--accent-blue)] mb-2">Saving Throws</legend>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-            {abilities.map(ability => (
+            {abilities.map((ability) => (
               <label key={ability}>
                 <input
                   type="checkbox"
                   checked={form.savingThrows.includes(ability)}
-                  onChange={() => handleCheckboxChange('savingThrows', ability)}
+                  onChange={() => handleCheckboxChange("savingThrows", ability)}
                 />
                 <span className="custom-checkbox">{ability}</span>
               </label>
@@ -182,18 +194,22 @@ export default function CharacterForm({ userId }: { userId: string }) {
           </div>
         </fieldset>
 
+        {/* Armor */}
         <div>
           <label>Armor</label>
           <select
             value={form.armor}
             onChange={(e) => setForm({ ...form, armor: e.target.value })}
           >
-            {armors.map(armor => (
-              <option key={armor} value={armor}>{armor}</option>
+            {armors.map((armor) => (
+              <option key={armor} value={armor}>
+                {armor}
+              </option>
             ))}
           </select>
         </div>
 
+        {/* Shield / Unarmored */}
         <div className="flex items-center gap-4">
           <label>
             <input
@@ -214,6 +230,7 @@ export default function CharacterForm({ userId }: { userId: string }) {
           </label>
         </div>
 
+        {/* Image Upload */}
         <div>
           <label>Upload Character Image</label>
           <input
@@ -223,6 +240,7 @@ export default function CharacterForm({ userId }: { userId: string }) {
           />
         </div>
 
+        {/* Submit */}
         <button type="submit" className="btn btn-primary">
           Save Character
         </button>

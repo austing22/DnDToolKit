@@ -64,3 +64,26 @@ export async function PUT(
 }
 
 // Add the GET method in here to fill the page
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const client = await clientPromise;
+    const db = client.db("dndtoolkit");
+
+    // Your users collection stores the character nested under the user document
+    const user = await db.collection("users").findOne(
+      { email: session.user.email },
+      { projection: { character: 1, image: 1 } }
+    );
+
+    // Return the nested character object (or an empty object)
+    return NextResponse.json(user?.character ?? {}, { status: 200 });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}

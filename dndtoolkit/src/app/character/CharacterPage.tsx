@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 type AbilityScore = { score: number; modifier: number };
 
@@ -35,8 +36,12 @@ export default function CharacterPage({ userId }: { userId: string }) {
         if (!res.ok) throw new Error("Failed to fetch character");
         const data = await res.json();
         setCharacter(data);
-      } catch (err: any) {
-        setError(err.message || "Unknown error");
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Unknown error");
+        }
       } finally {
         setLoading(false);
       }
@@ -53,10 +58,12 @@ export default function CharacterPage({ userId }: { userId: string }) {
     <div className="character-page">
       <div className="character-header">
         {character.image && (
-          <img
+          <Image
             className="character-portrait"
             src={character.image}
             alt={`${character.name} portrait`}
+            width={200}
+            height={200}
           />
         )}
         <div className="character-info">
