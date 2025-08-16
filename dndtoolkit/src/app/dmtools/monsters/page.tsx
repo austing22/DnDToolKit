@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Monster } from '@/types/monsters';
 
 export default function EncounterGenerator() {
   const [partySize, setPartySize] = useState(4);
   const [partyLevel, setPartyLevel] = useState(5);
   const [difficulty, setDifficulty] = useState('Medium');
-  const [monsters, setMonsters] = useState<any[]>([]);
+  const [monsters, setMonsters] = useState<Monster[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -19,13 +20,22 @@ export default function EncounterGenerator() {
 
     try {
       const res = await fetch(`/api/monsters?partySize=${partySize}&partyLevel=${partyLevel}&difficulty=${difficulty}`);
-
-      if (!res.ok) throw new Error('Failed to generate encounter');
+      if (!res.ok) {
+        if (res.status === 400) {
+            setError('Invalid or missing parameters. Try adjusting the parameters.');
+        } else if (res.status === 503) {
+            setError('Generator timed out. Try adjusting the parameters.');
+        } else {
+            setError('Failed to generate encounter');
+        }
+        setMonsters([]);
+        return;
+      }
       const data = await res.json();
       setMonsters(data || []);
     } catch (err) {
       console.error(err);
-      setError('Failed to generate encounter.');
+      setError('Unexpected Error. Please Try Again.');
     } finally {
       setLoading(false);
     }
@@ -84,7 +94,7 @@ export default function EncounterGenerator() {
           {monsters.map((monster, idx) => (
             <Link
                 key={idx}
-                href={monster.statBlockUrl}
+                href={monster.statBlock}
                 target='_blank'
                 rel='noopener noreferrer'
                 className='border rounded-lg overflow-hidden hover:shadow-lg/50 transition bg-[var(--accent-gold)]'
