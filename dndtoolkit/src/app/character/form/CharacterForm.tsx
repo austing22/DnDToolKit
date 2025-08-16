@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
 const skills = [
@@ -9,14 +10,16 @@ const skills = [
   'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'
 ];
 const armors = ['None', 'Leather', 'Studded Leather', 'Chain Shirt', 'Scale Mail', 'Half Plate', 'Full Plate'];
-const characterClass = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rouge', 'Sorcerer', 'Warlock', 'Wizard'];
+const character_class = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rouge', 'Sorcerer', 'Warlock', 'Wizard'];
 
 export default function CharacterForm({ userId }: { userId: string }) {
+
+  const router = useRouter();
 
   const [form, setForm] = useState({
     characterName: '',
     level: 1,
-    characterClass: 'Barbarian',
+    character_class: 'Barbarian',
     abilityScores: Object.fromEntries(abilities.map(a => [a.toLowerCase(), 10])),
     skillProficiencies: [] as string[],
     savingThrows: [] as string[],
@@ -78,7 +81,7 @@ export default function CharacterForm({ userId }: { userId: string }) {
       body: JSON.stringify({
         characterName: form.characterName,
         level: form.level,
-        character_class: form.characterClass,
+        character_class: form.character_class,
         abilityScores: form.abilityScores,
         skillProficiencies: form.skillProficiencies,
         savingThrows: form.savingThrows,
@@ -91,6 +94,7 @@ export default function CharacterForm({ userId }: { userId: string }) {
 
     if (response.ok) {
       alert('Character saved!');
+      router.push("/character");
     } else {
       const errorData = await response.json();
       alert(`Error: ${errorData.message}`);
@@ -130,10 +134,10 @@ export default function CharacterForm({ userId }: { userId: string }) {
           />
           <label>Class</label>
           <select
-            value={form.characterClass}
-            onChange={(e) => setForm({ ...form, characterClass: e.target.value })}
+            value={form.character_class}
+            onChange={(e) => setForm({ ...form, character_class: e.target.value })}
           >
-            {characterClass.map((c) => (
+            {character_class.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>
