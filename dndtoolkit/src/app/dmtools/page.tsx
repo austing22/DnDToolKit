@@ -18,7 +18,7 @@ export default function Home() {
           label="NPC Generator"
         />
         <ToolCard
-          href="/dmtools/encounters"
+          href="/dmtools/monsters"
           imageSrc="/images/dmtools/encounter.png" 
           label="Random Encounter Generator"
         />
