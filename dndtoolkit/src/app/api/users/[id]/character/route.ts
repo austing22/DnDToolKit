@@ -38,21 +38,21 @@ export async function GET(
 
     // Build structured ability scores
     const abilityScores = {
-      strength: { score: baseScores.strength, modifier: getModifier(baseScores.strength) },
-      dexterity: { score: baseScores.dexterity, modifier: getModifier(baseScores.dexterity) },
-      constitution: { score: baseScores.constitution, modifier: getModifier(baseScores.constitution) },
-      intelligence: { score: baseScores.intelligence, modifier: getModifier(baseScores.intelligence) },
-      wisdom: { score: baseScores.wisdom, modifier: getModifier(baseScores.wisdom) },
-      charisma: { score: baseScores.charisma, modifier: getModifier(baseScores.charisma) },
+      Strength: { score: baseScores.strength, modifier: getModifier(baseScores.strength) },
+      Dexterity: { score: baseScores.dexterity, modifier: getModifier(baseScores.dexterity) },
+      Constitution: { score: baseScores.constitution, modifier: getModifier(baseScores.constitution) },
+      Intelligence: { score: baseScores.intelligence, modifier: getModifier(baseScores.intelligence) },
+      Wisdom: { score: baseScores.wisdom, modifier: getModifier(baseScores.wisdom) },
+      Charisma: { score: baseScores.charisma, modifier: getModifier(baseScores.charisma) },
     };
 
     const modifiers = {
-      STR: abilityScores.strength.modifier,
-      DEX: abilityScores.dexterity.modifier,
-      CON: abilityScores.constitution.modifier,
-      INT: abilityScores.intelligence.modifier,
-      WIS: abilityScores.wisdom.modifier,
-      CHA: abilityScores.charisma.modifier,
+      STR: abilityScores.Strength.modifier,
+      DEX: abilityScores.Dexterity.modifier,
+      CON: abilityScores.Constitution.modifier,
+      INT: abilityScores.Intelligence.modifier,
+      WIS: abilityScores.Wisdom.modifier,
+      CHA: abilityScores.Charisma.modifier,
     };
 
     // Armor Class logic
@@ -106,34 +106,34 @@ export async function GET(
 
     // Calculate saving throws
     const savingThrows = {
-      strength: modifiers.STR + (char.savingThrows?.includes("strength") ? proficiencyBonus : 0),
-      dexterity: modifiers.DEX + (char.savingThrows?.includes("dexterity") ? proficiencyBonus : 0),
-      constitution: modifiers.CON + (char.savingThrows?.includes("constitution") ? proficiencyBonus : 0),
-      intelligence: modifiers.INT + (char.savingThrows?.includes("intelligence") ? proficiencyBonus : 0),
-      wisdom: modifiers.WIS + (char.savingThrows?.includes("wisdom") ? proficiencyBonus : 0),
-      charisma: modifiers.CHA + (char.savingThrows?.includes("charisma") ? proficiencyBonus : 0),
+      Strength: modifiers.STR + (char.savingThrows?.includes("strength") ? proficiencyBonus : 0),
+      Dexterity: modifiers.DEX + (char.savingThrows?.includes("dexterity") ? proficiencyBonus : 0),
+      Constitution: modifiers.CON + (char.savingThrows?.includes("constitution") ? proficiencyBonus : 0),
+      Intelligence: modifiers.INT + (char.savingThrows?.includes("intelligence") ? proficiencyBonus : 0),
+      Wisdom: modifiers.WIS + (char.savingThrows?.includes("wisdom") ? proficiencyBonus : 0),
+      Charisma: modifiers.CHA + (char.savingThrows?.includes("charisma") ? proficiencyBonus : 0),
     };
 
     // Skills mapping (ability used for each skill)
     const skillAbilities: Record<string, keyof typeof modifiers> = {
-      athletics: "STR",
-      acrobatics: "DEX",
-      sleightOfHand: "DEX",
-      stealth: "DEX",
-      arcana: "INT",
-      history: "INT",
-      investigation: "INT",
-      nature: "INT",
-      religion: "INT",
-      animalHandling: "WIS",
-      insight: "WIS",
-      medicine: "WIS",
-      perception: "WIS",
-      survival: "WIS",
-      deception: "CHA",
-      intimidation: "CHA",
-      performance: "CHA",
-      persuasion: "CHA",
+      Athletics: "STR",
+      Acrobatics: "DEX",
+      'Sleight of Hand': "DEX",
+      Stealth: "DEX",
+      Arcana: "INT",
+      History: "INT",
+      Investigation: "INT",
+      Nature: "INT",
+      Religion: "INT",
+      'Animal Handling': "WIS",
+      Insight: "WIS",
+      Medicine: "WIS",
+      Perception: "WIS",
+      Survival: "WIS",
+      Deception: "CHA",
+      Intimidation: "CHA",
+      Performance: "CHA",
+      Persuasion: "CHA",
     };
 
     const skills: Record<string, number> = {};
