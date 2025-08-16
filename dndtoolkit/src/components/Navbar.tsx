@@ -64,7 +64,7 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dmtools/encounters" className="nav-link">
+                  <Link href="/dmtools/monsters" className="nav-link">
                     Encounter Generator
                   </Link>
                 </li>
