@@ -30,14 +30,25 @@ export default function InitiativeTracker() {
   const handleChange = (
     id: number,
     field: keyof Combatant,
-    value: string | number
+    value: string
   ) => {
     setCombatants((prev) =>
-      prev.map((c) =>
-        c.id === id
-          ? { ...c, [field]: field === 'modifier' || field === 'hp' ? parseInt(value as string) : value }
-          : c
-      )
+      prev.map((c) => {
+        if (c.id !== id) return c;
+
+        // Name is plain string
+        if (field === "name") {
+          return { ...c, name: value };
+        }
+
+        // Everything else is a number
+        let num: number | null = parseInt(value, 10);
+        if (isNaN(num)) {
+          num = field === "roll" ? null : 0; // roll can be null, others fallback to 0
+        }
+
+        return { ...c, [field]: num };
+      })
     );
   };
 
@@ -52,7 +63,10 @@ export default function InitiativeTracker() {
   const rollAllInitiative = () => {
     const rolled = combatants.map((c) => ({
       ...c,
-      roll: Math.floor(Math.random() * 20 + 1),
+      roll: 
+        c.roll === null || c.roll === 0 || isNaN(c.roll)
+        ? Math.floor(Math.random() * 20 + 1)
+        : c.roll,
     }));
 
     const ordered = [...rolled].sort((a, b) => (b.roll! + b.modifier) - (a.roll! + a.modifier));
@@ -94,6 +108,8 @@ export default function InitiativeTracker() {
                 value={c.modifier}
                 onChange={(e) => handleChange(c.id, 'modifier', e.target.value)}
                 className="input-sm w-16"
+                step={1}
+                onKeyDown={(e) => e.preventDefault()} 
               />
             </div>
             <div className="flex flex-col">
