@@ -61,7 +61,7 @@ export async function PUT(
   }
 }
 
-// Add the GET method in here to fill the page
+// GET method to fill the page
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
