@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const abilities = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
 const skills = [
@@ -9,14 +10,16 @@ const skills = [
   'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'
 ];
 const armors = ['None', 'Leather', 'Studded Leather', 'Chain Shirt', 'Scale Mail', 'Half Plate', 'Full Plate'];
-const characterClass = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rouge', 'Sorcerer', 'Warlock', 'Wizard'];
+const character_class = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rouge', 'Sorcerer', 'Warlock', 'Wizard'];
 
 export default function CharacterForm({ userId }: { userId: string }) {
+
+  const router = useRouter();
 
   const [form, setForm] = useState({
     characterName: '',
     level: 1,
-    characterClass: 'Barbarian',
+    character_class: 'Barbarian',
     abilityScores: Object.fromEntries(abilities.map(a => [a.toLowerCase(), 10])),
     skillProficiencies: [] as string[],
     savingThrows: [] as string[],
@@ -72,34 +75,94 @@ export default function CharacterForm({ userId }: { userId: string }) {
   e.preventDefault();
 
   try {
+    // Start with whatever the form already has 
+    let image_path: string | null =
+      (form as unknown as { image_path?: string | null }).image_path ?? null;
+
+    // 1) If the user picked a new file, upload it first
+    if (form.image) {
+      const formData = new FormData();
+      formData.append("file", form.image);
+
+      const uploadRes = await fetch(`/api/users/${userId}/character/upload-image`, {
+        method: "POST",
+        // IMPORTANT: no 'Content-Type' header (browser sets multipart boundary)
+        body: formData,
+      });
+
+      if (!uploadRes.ok) {
+        const err = await uploadRes.json().catch(() => ({}));
+        throw new Error(err?.message || "Image upload failed");
+      }
+
+      const { url } = await uploadRes.json();
+      image_path = url; // use the blob URL returned by the upload endpoint
+    }
+
+    // 2) Save the character (include image_path so it isn't wiped server-side)
     const response = await fetch(`/api/users/${userId}/character/form`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         characterName: form.characterName,
         level: form.level,
-        character_class: form.characterClass,
+        character_class: form.character_class,
         abilityScores: form.abilityScores,
         skillProficiencies: form.skillProficiencies,
         savingThrows: form.savingThrows,
         armor: form.armor,
         shield: form.shield,
         unarmoredDefense: form.unarmoredDefense,
-        image_path: form.image?.name ? `/images/characters/${form.image.name}` : null,
+        image_path, // <- either the new blob URL, the existing URL, or null
       }),
     });
 
-    if (response.ok) {
-      alert('Character saved!');
-    } else {
-      const errorData = await response.json();
-      alert(`Error: ${errorData.message}`);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData?.message || "Failed to save character");
     }
+
+    alert("Character saved!");
+    router.push("/character");
   } catch (err) {
-    console.error('API error:', err);
-    alert('Failed to save character.');
+    console.error("API error:", err);
+    alert(err instanceof Error ? err.message : "Failed to save character.");
   }
 };
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  // e.preventDefault();
+
+  // try {
+  //   const response = await fetch(`/api/users/${userId}/character/form`, {
+  //     method: 'PUT',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({
+  //       characterName: form.characterName,
+  //       level: form.level,
+  //       character_class: form.character_class,
+  //       abilityScores: form.abilityScores,
+  //       skillProficiencies: form.skillProficiencies,
+  //       savingThrows: form.savingThrows,
+  //       armor: form.armor,
+  //       shield: form.shield,
+  //       unarmoredDefense: form.unarmoredDefense,
+  //       image_path: form.image?.name ? `/images/characters/${form.image.name}` : null,
+  //     }),
+  //   });
+
+  //   if (response.ok) {
+  //     alert('Character saved!');
+  //     router.push("/character");
+  //   } else {
+  //     const errorData = await response.json();
+  //     alert(`Error: ${errorData.message}`);
+  //   }
+  // } catch (err) {
+  //   console.error('API error:', err);
+  //   alert('Failed to save character.');
+  // }
+  // };
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10 font-serif">
@@ -130,10 +193,10 @@ export default function CharacterForm({ userId }: { userId: string }) {
           />
           <label>Class</label>
           <select
-            value={form.characterClass}
-            onChange={(e) => setForm({ ...form, characterClass: e.target.value })}
+            value={form.character_class}
+            onChange={(e) => setForm({ ...form, character_class: e.target.value })}
           >
-            {characterClass.map((c) => (
+            {character_class.map((c) => (
               <option key={c} value={c}>
                 {c}
               </option>

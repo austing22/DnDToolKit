@@ -7,14 +7,12 @@ import { Session } from 'next-auth';
 
 export async function PUT(
   req: NextRequest,
-  context: unknown
-  // { params }: { params: { id: string } }
-) : Promise<Response> {
+  context: { params: Promise<{ id: string }> }
+) {
   try {
-    const { params } = context as { params: { id: string } };
     // Validate user
     const session: Session | null = await getServerSession(authOptions);
-    const userId = params.id;
+    const userId = (await context.params).id;
     
     if (!session?.user?.id) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -63,7 +61,7 @@ export async function PUT(
   }
 }
 
-// Add the GET method in here to fill the page
+// GET method to fill the page
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
