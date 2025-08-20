@@ -1,9 +1,9 @@
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
-//import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import TypeFromSearchParams from './TypeFromSearchParams';
+import Loader from '@/components/Loader';
 
 interface LogEntry {
   _id: string;
@@ -21,7 +21,7 @@ export default function ViewLogsPage() {
   const router = useRouter();
   const [editMode, setEditMode] = useState(false);
   const [editedText, setEditedText] = useState('');
-  const [type, setType] = useState<string>('location');
+  const [type, setType] = useState<string | null>(null);
 
 
   //const searchParams = useSearchParams();
@@ -30,17 +30,18 @@ export default function ViewLogsPage() {
   useEffect(() => {
     async function fetchLogs() {
       if (!type) {
-        setError('Missing log type');
-        setLoading(false);
+        //setError('Missing log type');
+        //setLoading(false);
         return;
       }
 
       try {
-        const res = await fetch(`/api/adventurelog?type=${type}`);
+        const res = await fetch(`/api/adventurelog?type=${type}`, { cache: 'no-store' });
         if (res.status === 401) {
             router.push('/login');
+        } else if (!res.ok) {
+          throw new Error('Failed to fetch logs'); 
         }
-        if (!res.ok) throw new Error('Failed to fetch logs'); 
 
         const data = await res.json();
         setLogs(data);
@@ -132,12 +133,12 @@ export default function ViewLogsPage() {
 
   return (
     <div className="max-w-3xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4 capitalize">{type} Logs</h2>
-      <Suspense fallback={null}>
+      <h2 className="text-2xl font-bold mb-4 capitalize">{type ? `${type} Logs` : 'Loading...'}</h2>
+      <Suspense fallback={<Loader />}>
         <TypeFromSearchParams onResolved={setType} />
       </Suspense>
 
-      {loading && <p>Loading logs...</p>}
+      {loading && <Loader />}
       {error && <p className="text-red-600 font-semibold">{error}</p>}
 
       {!loading && !error && logs.length === 0 && (

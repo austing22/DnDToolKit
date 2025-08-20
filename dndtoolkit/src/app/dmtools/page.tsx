@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-100 px-4 py-12 flex flex-col items-center">
+    <main className="min-h-screen px-4 py-12 flex flex-col items-center">
       <h1 className="text-4xl font-bold text-center mb-10">DM Tools</h1>
 
       <section className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">

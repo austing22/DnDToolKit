@@ -43,7 +43,12 @@ export default function AdventureLogPage() {
       {/* Navigation Tiles */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <Link href="/adventurelog/view?type=location" className="nav-tile">
-          <Image src="/images/locations.jpg" alt="Locations" width={100} height={100} className="tile-Image" />
+          <Image 
+            src="/images/locations.jpg" 
+            alt="Locations" 
+            width={100} 
+            height={100} 
+            className="tile-Image" />
           <p className="tile-label">Locations</p>
         </Link>
         <Link href="/adventurelog/view?type=npc" className="nav-tile">

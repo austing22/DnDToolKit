@@ -1,9 +1,11 @@
 import { NextResponse, NextRequest } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 import { Monster } from '@/types/monsters';
+import { sleep } from '@/components/Sleep'; 
 
 export async function POST(req: Request) {
   try {
+
     const data = await req.json();
 
     if (!data.name || !data.XP || !data.statBlock || !data.image) {
@@ -24,6 +26,8 @@ export async function POST(req: Request) {
 
 export async function GET(request: NextRequest) {
   try {
+    await sleep(1000);
+    
     // 1. Parse and validate query parameters
     const searchParams = request.nextUrl.searchParams;
 
