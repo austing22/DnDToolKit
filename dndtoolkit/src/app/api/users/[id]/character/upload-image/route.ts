@@ -1,6 +1,6 @@
 // app/api/users/[userId]/character/upload-image/route.ts
 import { NextResponse } from "next/server";
-import { put } from "@vercel/blob";
+import { put, list, del } from "@vercel/blob";
 
 export async function POST(
   req: Request,
@@ -13,6 +13,12 @@ export async function POST(
 
     if (!file) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+    }
+
+    // List existing blobs and delete them
+    const existing = await list({ prefix: `characters/${userId}/` });
+    for (const blob of existing.blobs) {
+      await del(blob.url, { token: process.env.BLOB_READ_WRITE_TOKEN });
     }
 
     // Upload to Vercel Blob
