@@ -64,6 +64,7 @@ export default function CharacterPage({ userId }: { userId: string }) {
             alt={`${character.name} portrait`}
             width={200}
             height={200}
+            style={{ objectFit: 'cover', objectPosition: 'top' }}
           />
         )}
         <div className="character-info">
