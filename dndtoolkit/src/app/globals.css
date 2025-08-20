@@ -45,6 +45,53 @@
   color: var(--text-main)
   
 }
+
+/* Navigation Tiles */
+.nav-tile {
+  position: relative;
+  display: flex;
+  align-items: flex-end; /* label at bottom */
+  justify-content: center;
+  height: 8rem; /* adjust size */
+  border-radius: 1rem; /* rounded-2xl */
+  overflow: hidden;
+  background: #f3f4f6; /* fallback gray */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.nav-tile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tile-Image {
+  position: absolute !important; /* override Next inline positioning */
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.tile-label {
+  position: relative;
+  z-index: 1;
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.4); /* subtle background for readability */
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tile-label:hover {
+  color: var(--accent-gold); /* gray-900 */
+}
+
 /* Container for dropdown behavior */
 .submenu-container {
   overflow: hidden;
@@ -411,3 +458,17 @@ input[type="radio"]:checked + .custom-radio::after {
   grid-column: span 2;
 }
 
+.form-textarea {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  resize: vertical;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--accent-blue); 
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.3); 
+}

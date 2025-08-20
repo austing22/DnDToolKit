@@ -6,6 +6,7 @@ import { FaFacebook } from "react-icons/fa";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/Loader";
 
 export default function LoginPage() {
   
@@ -14,11 +15,11 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/welcome');
+      router.push('/');
     }
   }, [status, router]);
   
-  if (status === 'loading') return <div>Loading...</div>
+  if (status === 'loading') return <Loader />
   return (
     <div className="login-container">
       <h1 className="text-2xl font-bold mb-4">Greetings, Adventurer!</h1>

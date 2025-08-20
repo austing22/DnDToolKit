@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface Props {
   onResolved: (type: string) => void;
@@ -8,10 +9,12 @@ interface Props {
 
 export default function TypeFromSearchParams({ onResolved }: Props) {
   const searchParams = useSearchParams();
-  const type = searchParams!.get('type') || 'location';
 
-  // Pass the value back up to your parent component
-  onResolved(type);
-
+  useEffect(() => {
+    const type = searchParams!.get('type') || '';
+    // Pass the value back up to parent component
+    onResolved(type);
+  }, [searchParams, onResolved]);
+  
   return null; // doesn't render anything
 }

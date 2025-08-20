@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Monster } from '@/types/monsters';
+import Loader from '@/components/Loader';
 
 export default function EncounterGenerator() {
   const [partySize, setPartySize] = useState(4);
@@ -86,7 +87,7 @@ export default function EncounterGenerator() {
         </div>
       </div>
 
-      {loading && <p>Generating encounter...</p>}
+      {loading && <Loader />}
       {error && <p className="text-red-500">{error}</p>}
 
       {monsters.length > 0 && (

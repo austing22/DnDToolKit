@@ -130,40 +130,6 @@ export default function CharacterForm({ userId }: { userId: string }) {
   }
 };
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  // e.preventDefault();
-
-  // try {
-  //   const response = await fetch(`/api/users/${userId}/character/form`, {
-  //     method: 'PUT',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       characterName: form.characterName,
-  //       level: form.level,
-  //       character_class: form.character_class,
-  //       abilityScores: form.abilityScores,
-  //       skillProficiencies: form.skillProficiencies,
-  //       savingThrows: form.savingThrows,
-  //       armor: form.armor,
-  //       shield: form.shield,
-  //       unarmoredDefense: form.unarmoredDefense,
-  //       image_path: form.image?.name ? `/images/characters/${form.image.name}` : null,
-  //     }),
-  //   });
-
-  //   if (response.ok) {
-  //     alert('Character saved!');
-  //     router.push("/character");
-  //   } else {
-  //     const errorData = await response.json();
-  //     alert(`Error: ${errorData.message}`);
-  //   }
-  // } catch (err) {
-  //   console.error('API error:', err);
-  //   alert('Failed to save character.');
-  // }
-  // };
-
   return (
     <main className="max-w-3xl mx-auto px-4 py-10 font-serif">
       <h1 className="text-3xl font-bold text-[var(--accent-red)] uppercase mb-6 text-center">

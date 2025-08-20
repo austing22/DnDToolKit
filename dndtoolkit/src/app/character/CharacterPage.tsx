@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Loader from "@/components/Loader";
 
 type AbilityScore = { score: number; modifier: number };
 
@@ -50,7 +51,7 @@ export default function CharacterPage({ userId }: { userId: string }) {
     fetchCharacter();
   }, [userId]);
 
-  if (loading) return <p>Loading character data...</p>;
+  if (loading) return <Loader />//<p>Loading character data...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!character) return <p>No character data found.</p>;
 
@@ -64,6 +65,7 @@ export default function CharacterPage({ userId }: { userId: string }) {
             alt={`${character.name} portrait`}
             width={200}
             height={200}
+            style={{ objectFit: 'cover', objectPosition: 'top' }}
           />
         )}
         <div className="character-info">
