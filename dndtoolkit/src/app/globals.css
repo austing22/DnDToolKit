@@ -42,7 +42,10 @@
 
 .nav-general {
   background-color: var(--accent-red);
-  color: var(--text-main)
+  color: var(--text-main);
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   
 }
 
@@ -418,6 +421,9 @@ input[type="radio"]:checked + .custom-radio::after {
   border: 2px solid #ccc;
 }
 
+.character-info {
+  max-width: 100vw;
+}
 .character-info h1 {
   margin: 0;
   font-size: 2rem;
@@ -432,6 +438,28 @@ input[type="radio"]:checked + .custom-radio::after {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
 }
+
+/* Base: phones = single column */
+/* .character-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+} */
+
+.character-grid .full-width {
+  grid-column: auto; /* don’t force span on small screens */
+}
+
+/* ≥640px (tweak as you like): two columns, make “full-width” truly full row */
+@media (min-width: 640px) {
+  .character-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .character-grid .full-width {
+    grid-column: 1 / -1; /* spans across all columns, works for 2+ cols */
+}
+}
+
 
 .character-card {
   background: #f9f9f9;
