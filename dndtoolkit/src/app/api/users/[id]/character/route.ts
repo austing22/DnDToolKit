@@ -106,12 +106,12 @@ export async function GET(
 
     // Calculate saving throws
     const savingThrows = {
-      Strength: modifiers.STR + (char.savingThrows?.includes("strength") ? proficiencyBonus : 0),
-      Dexterity: modifiers.DEX + (char.savingThrows?.includes("dexterity") ? proficiencyBonus : 0),
-      Constitution: modifiers.CON + (char.savingThrows?.includes("constitution") ? proficiencyBonus : 0),
-      Intelligence: modifiers.INT + (char.savingThrows?.includes("intelligence") ? proficiencyBonus : 0),
-      Wisdom: modifiers.WIS + (char.savingThrows?.includes("wisdom") ? proficiencyBonus : 0),
-      Charisma: modifiers.CHA + (char.savingThrows?.includes("charisma") ? proficiencyBonus : 0),
+      Strength: modifiers.STR + (char.savingThrows?.includes("Strength") ? proficiencyBonus : 0),
+      Dexterity: modifiers.DEX + (char.savingThrows?.includes("Dexterity") ? proficiencyBonus : 0),
+      Constitution: modifiers.CON + (char.savingThrows?.includes("Constitution") ? proficiencyBonus : 0),
+      Intelligence: modifiers.INT + (char.savingThrows?.includes("Intelligence") ? proficiencyBonus : 0),
+      Wisdom: modifiers.WIS + (char.savingThrows?.includes("Wisdom") ? proficiencyBonus : 0),
+      Charisma: modifiers.CHA + (char.savingThrows?.includes("Charisma") ? proficiencyBonus : 0),
     };
 
     // Skills mapping (ability used for each skill)
@@ -144,7 +144,7 @@ export async function GET(
     }
 
     // Passive Perception
-    const passivePerception = 8 + proficiencyBonus + skills.Perception;
+    const passivePerception = 8 + skills.Perception;
 
     // Hit points formula 
     // Map class to hit die size
