@@ -35,8 +35,16 @@ export default function CharacterPage({ userId }: { userId: string }) {
     async function fetchCharacter() {
       try {
         const res = await fetch(`/api/users/${userId}/character`);
+        if (res.status === 404) {
+          router.push('/character/form');
+          return;
+        }
+        
         if (!res.ok) throw new Error("Failed to fetch character");
+        
         const data = await res.json();
+        if (!data) throw new Error("No character data");
+
         setCharacter(data);
       } catch (err) {
         if (err instanceof Error) {
@@ -56,7 +64,7 @@ export default function CharacterPage({ userId }: { userId: string }) {
   if (error) return <p>Error: {error}</p>;
   if (!character) return <p>No character data found.</p>;
 
-    return (
+  return (
     <div className="character-page">
       <div className="character-header">
         {character.image && (
