@@ -22,6 +22,7 @@ type CharacterData = {
   abilityScores: Record<string, AbilityScore>;
   savingThrows: Record<string, number>;
   skills: Record<string, number>;
+  passivePerception: number;
 };
 
 export default function CharacterPage({ userId }: { userId: string }) {
@@ -51,7 +52,7 @@ export default function CharacterPage({ userId }: { userId: string }) {
     fetchCharacter();
   }, [userId]);
 
-  if (loading) return <Loader />//<p>Loading character data...</p>;
+  if (loading) return <Loader />;
   if (error) return <p>Error: {error}</p>;
   if (!character) return <p>No character data found.</p>;
 
@@ -77,6 +78,7 @@ export default function CharacterPage({ userId }: { userId: string }) {
           <p>HP: {character.hitPoints}</p>
           <p>Initiative: {character.initiative >= 0 ? `+${character.initiative}` : character.initiative}</p>
           <p>Proficiency: +{character.proficiencyBonus}</p>
+          <p>Passive Perception: {character.passivePerception}</p>
         </div>
       </div>
 

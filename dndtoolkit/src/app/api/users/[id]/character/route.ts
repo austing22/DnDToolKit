@@ -143,6 +143,9 @@ export async function GET(
       skills[skill] = baseMod + (isProficient ? proficiencyBonus : 0);
     }
 
+    // Passive Perception
+    const passivePerception = 8 + proficiencyBonus + skills.Perception;
+
     // Hit points formula 
     // Map class to hit die size
     const hitDiceMap: Record<string, number> = {
@@ -190,6 +193,7 @@ export async function GET(
       abilityScores,
       savingThrows,
       skills,
+      passivePerception,
     };
 
     return NextResponse.json(calculatedCharacterStats, { status: 200 });
