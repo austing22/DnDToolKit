@@ -1,4 +1,3 @@
-// app/api/users/[userId]/character/upload-image/route.ts
 import { NextResponse } from "next/server";
 import { put, list, del } from "@vercel/blob";
 

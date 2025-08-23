@@ -23,15 +23,9 @@ export default function ViewLogsPage() {
   const [editedText, setEditedText] = useState('');
   const [type, setType] = useState<string | null>(null);
 
-
-  //const searchParams = useSearchParams();
-  //const type = searchParams!.get('type') || 'location'; // The bang should not actually be there, but I couldn't get the error to go away
-
   useEffect(() => {
     async function fetchLogs() {
       if (!type) {
-        //setError('Missing log type');
-        //setLoading(false);
         return;
       }
 

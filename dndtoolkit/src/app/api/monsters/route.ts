@@ -126,7 +126,7 @@ export async function GET(request: NextRequest) {
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       const currentEncounter: Monster[] = [];
-      const monsterCount = Math.floor(Math.random() * 6) + 1; // 1–5 monsters
+      const monsterCount = Math.floor(Math.random() * 6) + 1; // random number of monsters
 
       for (let i = 0; i < monsterCount; i++) {
         const randomIndex = Math.floor(Math.random() * monsters.length);

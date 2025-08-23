@@ -24,7 +24,6 @@ export default function AdventureLogPage() {
   });
 
   if (res.ok) {
-    // const data = await res.json(); // Never used...leaving in case need it in the future
     alert('Log saved');
     // Clear form or show confirmation
     (e.target as HTMLFormElement).reset();
