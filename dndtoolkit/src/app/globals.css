@@ -450,7 +450,7 @@ input[type="radio"]:checked + .custom-radio::after {
   grid-column: auto; /* don’t force span on small screens */
 }
 
-/* ≥640px (tweak as you like): two columns, make “full-width” truly full row */
+/* ≥640px: two columns, make “full-width” truly full row */
 @media (min-width: 640px) {
   .character-grid {
     grid-template-columns: repeat(2, 1fr);

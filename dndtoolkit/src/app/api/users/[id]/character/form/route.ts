@@ -72,7 +72,7 @@ export async function GET() {
     const client = await clientPromise;
     const db = client.db("dndtoolkit");
 
-    // Your users collection stores the character nested under the user document
+    // Users collection stores the character nested under the user document
     const user = await db.collection("users").findOne(
       { email: session.user.email },
       { projection: { character: 1, image: 1 } }

@@ -113,7 +113,7 @@ export default function CharacterForm({ userId }: { userId: string }) {
         armor: form.armor,
         shield: form.shield,
         unarmoredDefense: form.unarmoredDefense,
-        image_path, // <- either the new blob URL, the existing URL, or null
+        image_path, 
       }),
     });
 

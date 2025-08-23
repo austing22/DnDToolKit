@@ -7,7 +7,6 @@ import { ObjectId } from 'mongodb';
 export async function DELETE(
   req: NextRequest,
   context: unknown
-  //{ params }: { params: { id: string } }
 ) : Promise<Response> {
   try {
     const { params } = context as { params: { id: string } };
@@ -37,11 +36,9 @@ export async function DELETE(
 export async function PUT(
   req: NextRequest,
   context :unknown
-  //{ params }: { params: { id: string } }
 ) : Promise<Response> {
   try {
     const { params } = context as { params: { id: string } };
-    // const { id } = params; // Build says never used, but this is just what the internet said to fix...leaving for now
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.id) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
